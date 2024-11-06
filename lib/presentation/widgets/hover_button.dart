@@ -19,7 +19,7 @@ class _HoverButtonState extends State<HoverButton> {
       child: Container(
         height: 80.0,
         width: 100,
-        child: const Image(image: AssetImage('')),
+        child: Image(image: AssetImage(widget.image!)),
       ),
     );
   }

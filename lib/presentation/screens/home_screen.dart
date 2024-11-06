@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:miulandingpage/presentation/widgets/hover_button.dart';
 import 'package:miulandingpage/presentation/widgets/nav_bar_butttons.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,99 +11,210 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // some variable for driving the animation
+  Color myColor = Colors.purple;
+  double image1right = 200.0;
+  double image2right = -700.0;
+  double image3right = -700.0;
+
+  // main animation driver function
+  void changer(int a) {
+    setState(() {
+      if (a == 1) {
+        //print('pase por 1');
+        myColor = Colors.purple;
+        image1right = 200.0;
+        image2right = -700.0;
+        image3right = -700.0;
+      } else if (a == 2) {
+        //print('pase por 2');  
+        myColor = Colors.pink.shade100;
+        image1right = -700.0;
+        image2right = 200.0;
+        image3right = -700.0;
+      } else if (a == 3) {
+        //print('pase por 3');
+        myColor = Colors.green.shade800;
+        image1right = -700.0;
+        image2right = -700.0;
+        image3right = 200.0;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Now the animation part
 
+          //La bola gigante
+          Positioned(
+            bottom: -100,
+            right: -200,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeIn,
+              height: MediaQuery.of(context).size.height * 0.9,
+              width: MediaQuery.of(context).size.height * 0.9,
+              decoration: BoxDecoration(
+                  color: myColor,
+                  borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.height * 0.5)),
+            ),
+          ),
 
-            // Now the animation part
+          // Las 3 imagenes flotantes en posicion bottom center
 
-
-
-
-
-
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-      
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          Positioned(
+              bottom: 20,
+              right: MediaQuery.of(context).size.width * 0.40,
+              child: Container(
+                width: 400,
+                child: Row(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.only(left: 30.0, top: 15.0, right: 20.0),
-                      //color: Colors.deepPurpleAccent,
-                      height: 90.0,
-                      child: const Image(image: AssetImage('assets/images/star.png'))
+                    HoverButton(
+                      image: 'assets/images/coffee1.png',
+                      hover: () {
+                        changer(1);
+                      },
                     ),
-                    const Spacer(),
-                    Container(
-                      //color: Colors.deepPurpleAccent,
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: const Row(
-                        children: [
-                          NavBarButttons(text: "What's New",),
-                          NavBarButttons(text: "Home",),
-                          NavBarButttons(text: "About me",),
-                          NavBarButttons(text: "Contact",),
-                        ],
-                      ),
+                    HoverButton(
+                      image: 'assets/images/coffee2.png',
+                      hover: () {
+                        changer(2);
+                      },
+                    ),
+                    HoverButton(
+                      image: 'assets/images/coffee3.png',
+                      hover: () {
+                        changer(3);
+                      },
                     ),
                   ],
                 ),
-      
-                const SizedBox(height: 50.0,),
-                Container(
-                  //color: Colors.blueAccent,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 50.0, right: 15.0,),
-                    child: Row(
+              )),
+
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      padding: const EdgeInsets.only(
+                          left: 30.0, top: 15.0, right: 20.0),
+                      //color: Colors.deepPurpleAccent,
+                      height: 90.0,
+                      child: const Image(
+                          image: AssetImage('assets/images/star.png'))),
+                  const Spacer(),
+                  Container(
+                    //color: Colors.deepPurpleAccent,
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: const Row(
                       children: [
-                        Text("It's  ", style: GoogleFonts.rubik(fontSize: 60.0, fontWeight: FontWeight.w400, color: Colors.black),),
-                        Text("MIU", style: GoogleFonts.montserrat(fontSize: 60.0, fontWeight: FontWeight.w900, color: Colors.black),),
+                        NavBarButttons(
+                          text: "What's New",
+                        ),
+                        NavBarButttons(
+                          text: "Home",
+                        ),
+                        NavBarButttons(
+                          text: "About me",
+                        ),
+                        NavBarButttons(
+                          text: "Contact",
+                        ),
                       ],
                     ),
                   ),
-                ),
-                Container(
-                  //color: Colors.blueAccent,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 50.0, right: 15.0,),
-                    child: Text("From the User, For the User", style: GoogleFonts.rubik(fontSize: 60.0, fontWeight: FontWeight.w400, color: Colors.black),),
+                ],
+              ),
+              const SizedBox(
+                height: 50.0,
+              ),
+              Container(
+                //color: Colors.blueAccent,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 50.0,
+                    right: 15.0,
                   ),
-                ), 
-                Container(
-                  //color: Colors.amber,
-                  width: MediaQuery.of(context).size.width*0.7,
-                  padding: const EdgeInsets.only(left: 50.0, top: 10, right: 15.0,),
-                  child: Text("Ut sint cillum ipsum minim. Consectetur quis nostrud ea tempor minim occaecat cillum elit duis in dolor Lorem ullamco. Dolore ipsum exercitation adipisicing eiusmod dolore cupidatat. Nostrud nostrud mollit nostrud magna fugiat occaecat. Laborum ut aute do velit do adipisicing ea. Cupidatat in adipisicing laborum ea. Eiusmod ex velit occaecat mollit anim fugiat est aliqua voluptate irure dolore labore.", 
-                  style: GoogleFonts.poppins(fontSize: 16.0, fontWeight: FontWeight.w400, color: Colors.black87),),
+                  child: Row(
+                    children: [
+                      Text(
+                        "It's  ",
+                        style: GoogleFonts.rubik(
+                            fontSize: 60.0,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                      ),
+                      Text(
+                        "MIU",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 60.0,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(left: 50.0, right: 15.0, top: 15.0),
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: colors.primary
+              ),
+              Container(
+                //color: Colors.blueAccent,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 50.0,
+                    right: 15.0,
                   ),
                   child: Text(
-                    "DOWNLOAD MY RESUME",
-                    style: GoogleFonts.montserrat(
+                    "From the User, For the User",
+                    style: GoogleFonts.rubik(
+                        fontSize: 60.0,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black),
+                  ),
+                ),
+              ),
+              Container(
+                //color: Colors.amber,
+                width: MediaQuery.of(context).size.width * 0.7,
+                padding: const EdgeInsets.only(
+                  left: 50.0,
+                  top: 10,
+                  right: 15.0,
+                ),
+                child: Text(
+                  "Ut sint cillum ipsum minim. Consectetur quis nostrud ea tempor minim occaecat cillum elit duis in dolor Lorem ullamco. Dolore ipsum exercitation adipisicing eiusmod dolore cupidatat. Nostrud nostrud mollit nostrud magna fugiat occaecat. Laborum ut aute do velit do adipisicing ea. Cupidatat in adipisicing laborum ea. Eiusmod ex velit occaecat mollit anim fugiat est aliqua voluptate irure dolore labore.",
+                  style: GoogleFonts.poppins(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black87),
+                ),
+              ),
+              Container(
+                margin:
+                    const EdgeInsets.only(left: 50.0, right: 15.0, top: 15.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 12.0, vertical: 12.0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7.0),
+                    color: colors.primary),
+                child: Text(
+                  "DOWNLOAD MY RESUME",
+                  style: GoogleFonts.montserrat(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white
-                    ),
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
+                      color: Colors.white),
+                ),
+              )
+            ],
+          )
+        ],
       ),
     );
   }
