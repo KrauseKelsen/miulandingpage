@@ -1,6 +1,8 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:miulandingpage/presentation/widgets/hover_button.dart';
+import 'package:miulandingpage/presentation/widgets/image_holder.dart';
 import 'package:miulandingpage/presentation/widgets/nav_bar_butttons.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,24 +24,38 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       if (a == 1) {
         //print('pase por 1');
-        myColor = Colors.purple;
+        myColor = Colors.green.shade800;
         image1right = 200.0;
         image2right = -700.0;
         image3right = -700.0;
       } else if (a == 2) {
-        //print('pase por 2');  
-        myColor = Colors.pink.shade100;
+        //print('pase por 2');
+        myColor = Colors.purple;
         image1right = -700.0;
         image2right = 200.0;
         image3right = -700.0;
       } else if (a == 3) {
         //print('pase por 3');
-        myColor = Colors.green.shade800;
+        myColor = Colors.pink.shade100;
         image1right = -700.0;
         image2right = -700.0;
         image3right = 200.0;
       }
     });
+  }
+
+  static TextStyle chakraPetchStyle() {
+    return GoogleFonts.chakraPetch(
+                        fontSize: 60.0,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black);
+  }
+
+  static TextStyle chakraPetch800Style() {
+    return GoogleFonts.chakraPetch(
+                        fontSize: 60.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black);
   }
 
   @override
@@ -64,6 +80,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(
                       MediaQuery.of(context).size.height * 0.5)),
             ),
+          ),
+
+          ImageHolder(
+            image: 'assets/images/coffee1.png',
+            right: image1right,
+          ),
+          ImageHolder(
+            image: 'assets/images/coffee2.png',
+            right: image2right,
+          ),
+          ImageHolder(
+            image: 'assets/images/coffee3.png',
+            right: image3right,
           ),
 
           // Las 3 imagenes flotantes en posicion bottom center
@@ -137,6 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 50.0,
               ),
+              
               Container(
                 //color: Colors.blueAccent,
                 child: Padding(
@@ -144,42 +174,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     left: 50.0,
                     right: 15.0,
                   ),
-                  child: Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "It's  ",
-                        style: GoogleFonts.rubik(
-                            fontSize: 60.0,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
+                      RichText(
+                        text: TextSpan(
+                          text: 'MIU ® ',
+                          style: GoogleFonts.chakraPetch(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                            color: colors.primary,
+                            letterSpacing: 1.5
+                          ),
+                        ),
                       ),
                       Text(
-                        "MIU",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 60.0,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.black),
+                        "From the User, For the User",
+                        style: chakraPetchStyle(),
                       ),
+                      buildAnimatedTextKit(['Flutter Development','Android Development', 'Backend Development', 'iOS Development']),
                     ],
                   ),
                 ),
               ),
-              Container(
-                //color: Colors.blueAccent,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 50.0,
-                    right: 15.0,
-                  ),
-                  child: Text(
-                    "From the User, For the User",
-                    style: GoogleFonts.rubik(
-                        fontSize: 60.0,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black),
-                  ),
-                ),
-              ),
+
+              
               Container(
                 //color: Colors.amber,
                 width: MediaQuery.of(context).size.width * 0.7,
@@ -215,6 +234,23 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           )
         ],
+      ),
+    );
+  }
+
+  Widget buildAnimatedTextKit(List<String> texts) {
+    return Container(
+      color: Colors.transparent,
+      child: AnimatedTextKit(
+        animatedTexts: texts.map((text) {
+          return TyperAnimatedText(
+            text,
+            textStyle: chakraPetch800Style(),
+          );
+        }).toList(),
+        pause: const Duration(milliseconds: 1000),
+        displayFullTextOnTap: true,
+        stopPauseOnTap: false,
       ),
     );
   }
